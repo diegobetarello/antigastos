@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigastos - Proteção Financeira e Anti-Impulso</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#635bff',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .screen-fade {
+            animation: fadeIn 0.25s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-slate-800 bg-slate-200 min-h-full flex flex-col items-center justify-start p-0 sm:p-4">
+
+    <!-- Mobile App Frame Container -->
+    <div id="app-container" class="w-full max-w-md bg-slate-50 min-h-screen sm:min-h-[860px] sm:max-h-[900px] sm:rounded-[36px] sm:shadow-2xl sm:border-[8px] sm:border-slate-800 flex flex-col justify-between overflow-hidden relative">
+
+        <!-- Emergency Banner (Appears when Emergency Mode is toggled) -->
+        <div id="emergency-banner" class="hidden bg-rose-600 text-white px-4 py-2.5 text-xs font-bold flex justify-between items-center z-30 shadow-md">
+            <span class="flex items-center gap-2">
+                <i class="fa-solid fa-shield-virus text-sm animate-pulse"></i>
+                MODO EMERGÊNCIA ATIVO (24H)
+            </span>
+            <button onclick="desativarEmergencia()" class="bg-rose-800 hover:bg-rose-900 px-2 py-1 rounded text-[10px] uppercase font-black">Desativar</button>
+        </div>
+
+        <!-- SCREEN 0: LOGIN / CADASTRO -->
+        <section id="loginScreen" class="min-h-screen sm:min-h-[840px] bg-gradient-to-br from-brand-600 via-indigo-600 to-purple-700 p-6 flex flex-col justify-center items-center z-40">
+            <div class="w-full bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 space-y-5">
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-brand-500 rounded-2xl mx-auto flex items-center justify-center text-white text-2xl font-black shadow-lg shadow-brand-500/40 mb-3">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h1 class="text-2xl font-black text-slate-900 tracking-tight">
+                        ANTI<span class="text-brand-500">GASTOS</span>
+                    </h1>
+                    <p class="text-xs text-slate-500 font-medium mt-1">Antes de comprar, pense duas vezes.</p>
+                </div>
+
+                <div class="bg-brand-50 border border-brand-100 rounded-2xl p-3 text-center text-xs font-semibold text-brand-700 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>🔐 Seus dados ficam salvos neste dispositivo.</span>
+                </div>
+
+                <!-- LOGIN AREA -->
+                <div id="loginArea" class="space-y-3">
+                    <h3 class="text-sm font-extrabold text-slate-800 border-b border-slate-100 pb-2">Entrar na minha conta</h3>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1" for="loginEmail">E-mail</label>
+                        <input id="loginEmail" type="email" placeholder="seuemail@email.com" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1" for="loginPassword">Senha</label>
+                        <input id="loginPassword" type="password" placeholder="Digite sua senha" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <button onclick="entrar()" type="button" class="w-full bg-brand-500 hover:bg-brand-600 active:scale-[0.98] text-white font-extrabold py-3.5 px-4 rounded-xl shadow-lg shadow-brand-500/30 transition-all flex items-center justify-center gap-2 text-xs">
+                        🔐 ENTRAR
+                    </button>
+
+                    <button onclick="mostrarCadastro()" type="button" class="w-full bg-slate-100 hover:bg-slate-200 text-brand-700 font-bold py-3 px-4 rounded-xl text-xs transition-colors">
+                        CRIAR UMA CONTA
+                    </button>
+
+                    <div onclick="esqueciSenha()" class="text-center text-xs text-brand-600 font-bold hover:underline cursor-pointer pt-1">
+                        Esqueci minha senha
+                    </div>
+                </div>
+
+                <!-- CADASTRO AREA -->
+                <div id="registerArea" class="space-y-3 hidden">
+                    <h3 class="text-sm font-extrabold text-slate-800 border-b border-slate-100 pb-2">Criar minha conta</h3>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1" for="cadastroNome">Nome</label>
+                        <input id="cadastroNome" type="text" placeholder="Digite seu nome" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1" for="cadastroEmail">E-mail</label>
+                        <input id="cadastroEmail" type="email" placeholder="seuemail@email.com" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1" for="cadastroSenha">Senha</label>
+                        <input id="cadastroSenha" type="password" placeholder="Mínimo 6 caracteres" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1" for="cadastroSenhaConfirmacao">Confirmar senha</label>
+                        <input id="cadastroSenhaConfirmacao" type="password" placeholder="Digite a senha novamente" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <button onclick="criarConta()" type="button" class="w-full bg-brand-500 hover:bg-brand-600 active:scale-[0.98] text-white font-extrabold py-3.5 px-4 rounded-xl shadow-lg shadow-brand-500/30 transition-all flex items-center justify-center gap-2 text-xs">
+                        ✅ CRIAR MINHA CONTA
+                    </button>
+
+                    <button onclick="mostrarLogin()" type="button" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs transition-colors">
+                        VOLTAR PARA LOGIN
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- APP BODY (Hidden until user logs in) -->
+        <div id="app" class="hidden flex-1 flex flex-col justify-between overflow-hidden">
+
+            <!-- HEADER -->
+            <header class="bg-white px-6 py-4 flex justify-between items-center border-b border-slate-100 sticky top-0 z-20 shadow-sm">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 bg-brand-500 rounded-xl flex items-center justify-center text-white font-black text-lg shadow-md shadow-brand-500/30">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-extrabold tracking-tight text-slate-900 leading-none">
+                            ANTI<span class="text-brand-500">GASTOS</span>
+                        </h1>
+                        <span class="text-[10px] text-slate-400 font-medium">Guardião Financeiro</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="sair()" title="Sair da Conta" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-rose-100 text-slate-500 hover:text-rose-600 flex items-center justify-center text-xs transition-colors">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- MAIN CONTENT CONTAINER -->
+            <main class="flex-1 overflow-y-auto px-5 py-4 pb-28 relative">
+
+                <!-- SCREEN 1: HOME (INÍCIO) -->
+                <section id="home" class="screen screen-fade active space-y-4">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Painel Principal</p>
+                        <p class="text-slate-600 text-xs font-medium">Antes de comprar, pense duas vezes.</p>
+                    </div>
+
+                    <!-- Hero Card -->
+                    <div class="bg-gradient-to-br from-brand-500 via-indigo-600 to-brand-700 rounded-3xl p-6 text-white shadow-xl shadow-brand-500/25 relative overflow-hidden">
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs uppercase tracking-wider font-bold text-brand-100 flex items-center gap-1.5">
+                                <i class="fa-solid fa-piggy-bank text-sm"></i>
+                                DINHEIRO ECONOMIZADO ESTE MÊS
+                            </span>
+                            <i class="fa-solid fa-sparkles text-amber-300"></i>
+                        </div>
+
+                        <div class="text-3xl font-black mt-2 tracking-tight" id="economia">
+                            R$ 780,00
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-white/15 space-y-2">
+                            <div class="flex justify-between text-xs text-brand-100">
+                                <span>Orçamento utilizado:</span>
+                                <span class="font-bold text-white" id="lbl-orcamento-texto">R$ 1.220 / R$ 2.000</span>
+                            </div>
+                            <div class="w-full bg-black/20 h-2.5 rounded-full overflow-hidden p-0.5">
+                                <div id="bar-orcamento" class="bg-white h-full rounded-full transition-all duration-500" style="width: 61%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
+                            <div class="flex items-center justify-between text-slate-400">
+                                <span class="text-[11px] font-bold uppercase tracking-wider">COMPRAS EVITADAS</span>
+                                <i class="fa-solid fa-ban text-rose-500 text-xs"></i>
+                            </div>
+                            <div class="text-2xl font-black text-slate-800 mt-2" id="comprasEvitadas">6</div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
+                            <div class="flex items-center justify-between text-slate-400">
+                                <span class="text-[11px] font-bold uppercase tracking-wider">GASTOS ATUAIS</span>
+                                <i class="fa-solid fa-wallet text-brand-500 text-xs"></i>
+                            </div>
+                            <div class="text-2xl font-black text-slate-800 mt-2" id="lbl-home-gastos">R$ 1.220</div>
+                        </div>
+                    </div>
+
+                    <!-- Protection Status -->
+                    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+                        <div class="w-11 h-11 rounded-2xl bg-indigo-50 text-brand-500 flex items-center justify-center text-xl font-bold flex-shrink-0">
+                            <i class="fa-solid fa-shield-heart"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-xs font-bold uppercase text-slate-400">Proteção Financeira</h3>
+                                <span class="text-xs font-black text-brand-600">87%</span>
+                            </div>
+                            <p class="text-xs text-slate-600 font-medium mt-0.5">Seu Antigastos está ativo e monitorando.</p>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="space-y-2 pt-2">
+                        <button onclick="abrirTela('simular')" class="w-full bg-brand-500 hover:bg-brand-600 active:scale-[0.98] transition-all text-white font-extrabold py-3.5 px-4 rounded-2xl shadow-lg shadow-brand-500/20 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-shopping"></i> SIMULAR UMA COMPRA
+                        </button>
+                        <button onclick="modoEmergencia()" class="w-full bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 active:scale-[0.98] transition-all font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 text-xs">
+                            <i class="fa-solid fa-triangle-exclamation"></i> MODO EMERGÊNCIA (BLOQUEIO 24H)
+                        </button>
+                    </div>
+
+                    <!-- Subscription Card -->
+                    <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm text-center space-y-2 mt-4 relative overflow-hidden">
+                        <div class="text-xs font-black text-brand-600 tracking-wider uppercase">🛡️ PROTEJA SEU DINHEIRO</div>
+                        <div class="flex justify-center items-baseline gap-2">
+                            <span class="line-through text-slate-400 text-xs">R$ 49,90/mês</span>
+                            <span class="text-3xl font-black text-brand-600">R$ 9,90</span>
+                            <span class="text-xs text-slate-500">/ mês</span>
+                        </div>
+                        <p class="text-xs text-slate-500">Pague R$ 9,90 para evitar perder centenas de reais em compras por impulso.</p>
+                        <button onclick="assinatura()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-3 px-4 rounded-xl text-xs transition-colors mt-2">
+                            QUERO O ANTIGASTOS
+                        </button>
+                    </div>
+                </section>
+
+                <!-- SCREEN 2: SIMULAR (SIMULADOR) -->
+                <section id="simular" class="screen screen-fade hidden space-y-4">
+                    <div>
+                        <h2 class="text-lg font-extrabold text-slate-900">🧠 Simular Compra</h2>
+                        <p class="text-xs text-slate-500">Veja se o Antigastos deixaria você comprar.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="produto">Produto</label>
+                            <input id="produto" type="text" value="Tênis Esportivo" placeholder="Nome do produto" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="valor">Valor da compra (R$)</label>
+                            <input id="valor" type="number" value="450" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1" for="categoria">Categoria</label>
+                                <select id="categoria" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                    <option value="Calçados">Calçados</option>
+                                    <option value="Roupas">Roupas</option>
+                                    <option value="Eletrônicos">Eletrônicos</option>
+                                    <option value="Alimentação">Alimentação</option>
+                                    <option value="Lazer">Lazer</option>
+                                    <option value="Outros">Outros</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1" for="semelhantes">Semelhantes no mês</label>
+                                <input id="semelhantes" type="number" value="3" min="0" class="w-full py-2.5 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-center focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                        </div>
+
+                        <button onclick="analisarCompra()" class="w-full bg-brand-500 hover:bg-brand-600 active:scale-[0.98] transition-all text-white font-extrabold py-3.5 px-4 rounded-xl shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 text-xs">
+                            <i class="fa-solid fa-magnifying-glass-dollar"></i> ANALISAR COMPRA
+                        </button>
+                    </div>
+
+                    <!-- Simulation Result Container -->
+                    <div id="resultado" class="space-y-3"></div>
+                </section>
+
+                <!-- SCREEN 3: HISTÓRICO -->
+                <section id="historico" class="screen screen-fade hidden space-y-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h2 class="text-lg font-extrabold text-slate-900">📊 Histórico</h2>
+                            <p class="text-xs text-slate-500">Registro de análises recentes.</p>
+                        </div>
+                        <button onclick="limparHistorico()" class="text-xs text-slate-400 hover:text-rose-600 font-semibold">Limpar</button>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm divide-y divide-slate-100" id="lista-historico">
+                        <!-- Dynamic History Rows -->
+                    </div>
+                </section>
+
+                <!-- SCREEN 4: ECONOMIA -->
+                <section id="economiaTela" class="screen screen-fade hidden space-y-4">
+                    <div>
+                        <h2 class="text-lg font-extrabold text-slate-900">💰 Sua Economia</h2>
+                        <p class="text-xs text-slate-500">Acompanhe seu progresso ao evitar compras por impulso.</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-emerald-600 to-teal-800 rounded-3xl p-6 text-white shadow-lg">
+                        <span class="text-xs font-bold tracking-wider text-emerald-100 uppercase">TOTAL ECONOMIZADO</span>
+                        <div class="text-3xl font-black mt-1" id="economia2">R$ 780,00</div>
+                        <p class="text-xs text-emerald-100 mt-2 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span id="lbl-count-evitadas-screen">6 compras evitadas</span>
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-1 divide-y divide-slate-100">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 pb-2">Evolução Semanal</h3>
+                        <div class="pt-2 flex justify-between items-center text-xs">
+                            <span class="text-slate-600 font-medium">Semana 1</span>
+                            <b class="text-emerald-600 font-bold">R$ 120,00</b>
+                        </div>
+                        <div class="pt-2 flex justify-between items-center text-xs">
+                            <span class="text-slate-600 font-medium">Semana 2</span>
+                            <b class="text-emerald-600 font-bold">R$ 200,00</b>
+                        </div>
+                        <div class="pt-2 flex justify-between items-center text-xs">
+                            <span class="text-slate-600 font-medium">Semana 3</span>
+                            <b class="text-emerald-600 font-bold">R$ 180,00</b>
+                        </div>
+                        <div class="pt-2 flex justify-between items-center text-xs">
+                            <span class="text-slate-600 font-medium">Semana 4</span>
+                            <b class="text-emerald-600 font-bold">R$ 280,00</b>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SCREEN 5: PERFIL -->
+                <section id="perfil" class="screen screen-fade hidden space-y-4">
+                    <div>
+                        <h2 class="text-lg font-extrabold text-slate-900">👤 Meu Perfil</h2>
+                        <p class="text-xs text-slate-500">Ajuste seus limites financeiros de segurança.</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-3">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Limites de Gastos</h3>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="limiteMensal">Limite mensal (R$)</label>
+                            <input id="limiteMensal" type="number" value="2000" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-brand-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="limiteSemanal">Limite semanal (R$)</label>
+                            <input id="limiteSemanal" type="number" value="500" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-brand-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="limiteCompra">Limite por compra (R$)</label>
+                            <input id="limiteCompra" type="number" value="300" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-brand-500">
+                        </div>
+
+                        <button onclick="salvarLimites()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-extrabold py-3 px-4 rounded-xl text-xs shadow-md transition-all mt-2">
+                            💾 SALVAR LIMITES
+                        </button>
+                    </div>
+
+                    <!-- Virtual Card Widget -->
+                    <div class="bg-gradient-to-r from-slate-900 to-indigo-950 p-5 rounded-2xl text-white shadow-md space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider">💳 Cartão Protegido</span>
+                            <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                        </div>
+                        <div class="font-mono tracking-widest text-base font-bold">•••• •••• •••• 1234</div>
+                        <div class="text-[10px] text-slate-400 flex justify-between">
+                            <span>Antigastos Shield</span>
+                            <span class="text-emerald-400 font-bold">● Proteção Ativa</span>
+                        </div>
+                    </div>
+
+                    <button onclick="sair()" class="w-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-extrabold py-3.5 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> SAIR DA CONTA
+                    </button>
+                </section>
+
+            </main>
+
+            <!-- NAVIGATION BAR -->
+            <nav class="bg-white border-t border-slate-200 fixed sm:absolute bottom-0 left-0 right-0 z-30 px-2 py-2 flex justify-around items-center">
+                <button onclick="abrirTela('home', this)" class="nav-btn text-brand-600 flex flex-col items-center gap-1">
+                    <i class="fa-solid fa-house text-base"></i>
+                    <span class="text-[10px] font-bold">Início</span>
+                </button>
+
+                <button onclick="abrirTela('simular', this)" class="nav-btn text-slate-400 hover:text-slate-600 flex flex-col items-center gap-1">
+                    <i class="fa-solid fa-brain text-base"></i>
+                    <span class="text-[10px] font-bold">Simular</span>
+                </button>
+
+                <button onclick="abrirTela('historico', this)" class="nav-btn text-slate-400 hover:text-slate-600 flex flex-col items-center gap-1">
+                    <i class="fa-solid fa-chart-simple text-base"></i>
+                    <span class="text-[10px] font-bold">Histórico</span>
+                </button>
+
+                <button onclick="abrirTela('economiaTela', this)" class="nav-btn text-slate-400 hover:text-slate-600 flex flex-col items-center gap-1">
+                    <i class="fa-solid fa-piggy-bank text-base"></i>
+                    <span class="text-[10px] font-bold">Economia</span>
+                </button>
+
+                <button onclick="abrirTela('perfil', this)" class="nav-btn text-slate-400 hover:text-slate-600 flex flex-col items-center gap-1">
+                    <i class="fa-solid fa-user-shield text-base"></i>
+                    <span class="text-[10px] font-bold">Perfil</span>
+                </button>
+            </nav>
+
+        </div>
+
+    </div>
+
+    <!-- CUSTOM MODAL DIALOG (Replaces Alert & Confirm) -->
+    <div id="custom-modal-overlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+        <div id="custom-modal-card" class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl transform scale-95 transition-transform duration-200 space-y-4">
+            <div id="modal-icon-wrapper" class="w-14 h-14 rounded-2xl bg-indigo-50 text-brand-500 flex items-center justify-center text-2xl mx-auto">
+                <i id="modal-icon" class="fa-solid fa-circle-info"></i>
+            </div>
+            
+            <div class="text-center">
+                <h3 id="modal-title" class="text-lg font-extrabold text-slate-900">Título</h3>
+                <p id="modal-body" class="text-xs text-slate-600 mt-2 leading-relaxed">Mensagem do modal.</p>
+            </div>
+
+            <div id="modal-actions" class="flex gap-2 pt-2">
+                <!-- Action buttons appended dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col gap-2 w-full max-w-xs px-4"></div>
+
+    <script>
+        let intervaloTimer = null;
+        let estado = {
+            economiaAtual: 780.00,
+            comprasEvitadas: 6,
+            orcamentoGasto: 1220.00,
+            orcamentoLimite: 2000.00,
+            modoEmergencia: false,
+            historico: [
+                { produto: 'Tênis', valor: 450.00, categoria: 'Calçados', status: 'EVITADA', badgeClass: 'bg-rose-100 text-rose-700' },
+                { produto: 'Jogo', valor: 120.00, categoria: 'Lazer', status: 'ATENÇÃO', badgeClass: 'bg-amber-100 text-amber-800' },
+                { produto: 'Restaurante', valor: 80.00, categoria: 'Alimentação', status: 'TRANQUILA', badgeClass: 'bg-emerald-100 text-emerald-800' }
+            ]
+        };
+
+        window.onload = function() {
+            if (localStorage.getItem("antigastos_logado") === "true") {
+                abrirAplicativo();
+            } else {
+                document.getElementById("loginScreen").classList.remove("hidden");
+                document.getElementById("app").classList.add("hidden");
+            }
+        };
+
+        function mostrarCadastro() {
+            document.getElementById("loginArea").classList.add("hidden");
+            document.getElementById("registerArea").classList.remove("hidden");
+        }
+
+        function mostrarLogin() {
+            document.getElementById("registerArea").classList.add("hidden");
+            document.getElementById("loginArea").classList.remove("hidden");
+        }
+
+        function criarConta() {
+            const nome = document.getElementById("cadastroNome").value.trim();
+            const email = document.getElementById("cadastroEmail").value.trim();
+            const senha = document.getElementById("cadastroSenha").value;
+            const confirmacao = document.getElementById("cadastroSenhaConfirmacao").value;
+
+            if (!nome || !email || !senha || !confirmacao) {
+                showToast("Por favor, preencha todos os campos.", "warning");
+                return;
+            }
+
+            if (senha.length < 6) {
+                showToast("A senha precisa ter pelo menos 6 caracteres.", "warning");
+                return;
+            }
+
+            if (senha !== confirmacao) {
+                showToast("As senhas digitadas não coincidem.", "warning");
+                return;
+            }
+
+            localStorage.setItem("antigastos_nome", nome);
+            localStorage.setItem("antigastos_email", email);
+            localStorage.setItem("antigastos_senha", senha);
+
+            showModal({
+                title: "✅ Conta Criada com Sucesso!",
+                body: `Olá, ${nome}! Sua conta foi cadastrada. Faça login para acessar o Antigastos.`,
+                icon: "fa-circle-check",
+                iconBg: "bg-emerald-100 text-emerald-600",
+                confirmText: "Ir para Login",
+                onConfirm: () => {
+                    document.getElementById("loginEmail").value = email;
+                    mostrarLogin();
+                }
+            });
+        }
+
+        function entrar() {
+            const email = document.getElementById("loginEmail").value.trim();
+            const senha = document.getElementById("loginPassword").value;
+
+            const emailSalvo = localStorage.getItem("antigastos_email");
+            const senhaSalva = localStorage.getItem("antigastos_senha");
+
+            if (!email || !senha) {
+                showToast("Digite seu e-mail e sua senha.", "warning");
+                return;
+            }
+
+            if (!emailSalvo) {
+                showModal({
+                    title: "Conta Não Encontrada",
+                    body: "Nenhuma conta encontrada neste dispositivo. Clique em 'Criar uma conta'.",
+                    icon: "fa-user-xmark",
+                    iconBg: "bg-amber-100 text-amber-600",
+                    confirmText: "Criar Conta",
+                    onConfirm: () => mostrarCadastro()
+                });
+                return;
+            }
+
+            if (email === emailSalvo && senha === senhaSalva) {
+                localStorage.setItem("antigastos_logado", "true");
+                abrirAplicativo();
+                const nome = localStorage.getItem("antigastos_nome") || "";
+                showToast(`Bem-vindo de volta${nome ? ', ' + nome : ''}!`, "success");
+            } else {
+                showToast("❌ E-mail ou senha incorretos.", "error");
+            }
+        }
+
+        function abrirAplicativo() {
+            document.getElementById("loginScreen").classList.add("hidden");
+            document.getElementById("app").classList.remove("hidden");
+            atualizarTelas();
+            renderHistorico();
+        }
+
+        function sair() {
+            showModal({
+                title: "Sair da Conta?",
+                body: "Deseja realmente encerrar sua sessão atual?",
+                icon: "fa-right-from-bracket",
+                iconBg: "bg-rose-100 text-rose-600",
+                showCancel: true,
+                confirmText: "Sair",
+                cancelText: "Cancelar",
+                onConfirm: () => {
+                    localStorage.removeItem("antigastos_logado");
+                    location.reload();
+                }
+            });
+        }
+
+        function esqueciSenha() {
+            showModal({
+                title: "Recuperação de Senha",
+                body: "Para este protótipo, a recuperação de senha foi enviada para o seu e-mail simulado.",
+                icon: "fa-envelope-open-text",
+                iconBg: "bg-brand-50 text-brand-600",
+                confirmText: "Entendido"
+            });
+        }
+
+        /* NAVIGATION */
+        function abrirTela(id, botao) {
+            document.querySelectorAll(".screen").forEach(tela => {
+                tela.classList.add("hidden");
+                tela.classList.remove("active");
+            });
+
+            const target = document.getElementById(id);
+            if (target) {
+                target.classList.remove("hidden");
+                target.classList.add("active");
+            }
+
+            document.querySelectorAll(".nav-btn").forEach(b => {
+                b.classList.remove("text-brand-600");
+                b.classList.add("text-slate-400");
+            });
+
+            if (botao) {
+                botao.classList.remove("text-slate-400");
+                botao.classList.add("text-brand-600");
+            }
+        }
+
+        /* UI UPDATE ENGINE */
+        function atualizarTelas() {
+            const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            document.getElementById("economia").innerText = fmt(estado.economiaAtual);
+            document.getElementById("economia2").innerText = fmt(estado.economiaAtual);
+            document.getElementById("comprasEvitadas").innerText = estado.comprasEvitadas;
+            document.getElementById("lbl-count-evitadas-screen").innerText = `${estado.comprasEvitadas} compras evitadas`;
+
+            document.getElementById("lbl-home-gastos").innerText = fmt(estado.orcamentoGasto);
+            document.getElementById("lbl-orcamento-texto").innerText = `${fmt(estado.orcamentoGasto)} / ${fmt(estado.orcamentoLimite)}`;
+
+            const pct = Math.min(100, Math.round((estado.orcamentoGasto / estado.orcamentoLimite) * 100));
+            document.getElementById("bar-orcamento").style.width = `${pct}%`;
+        }
+
+        function renderHistorico() {
+            const container = document.getElementById("lista-historico");
+            if (!container) return;
+
+            if (estado.historico.length === 0) {
+                container.innerHTML = `<div class="p-6 text-center text-xs text-slate-400">Nenhum registro no histórico.</div>`;
+                return;
+            }
+
+            container.innerHTML = estado.historico.map(item => `
+                <div class="p-4 flex justify-between items-center hover:bg-slate-50 transition-colors">
+                    <div>
+                        <div class="text-xs font-bold text-slate-800">${escapeHtml(item.produto)}</div>
+                        <div class="text-[10px] text-slate-400">R$ ${item.valor.toFixed(2).replace('.', ',')} • ${escapeHtml(item.categoria)}</div>
+                    </div>
+                    <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase ${item.badgeClass}">
+                        ${item.status}
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        function analisarCompra() {
+            if (estado.modoEmergencia) {
+                showModal({
+                    title: "🚨 Modo Emergência Ativo",
+                    body: "Todas as simulações e compras estão bloqueadas por 24 horas para conter gastos desnecessários.",
+                    icon: "fa-shield-virus",
+                    iconBg: "bg-rose-100 text-rose-600",
+                    confirmText: "Entendido"
+                });
+                return;
+            }
+
+            clearInterval(intervaloTimer);
+
+            const produto = document.getElementById("produto").value.trim() || "Item Desconhecido";
+            const valor = parseFloat(document.getElementById("valor").value) || 0;
+            const categoria = document.getElementById("categoria").value;
+            const semelhantes = parseInt(document.getElementById("semelhantes").value) || 0;
+
+            if (valor <= 0) {
+                showToast("Por favor, digite um valor válido.", "warning");
+                return;
+            }
+
+            let risco = 0;
+            if (valor > 300) risco += 30;
+            if (valor > 500) risco += 20;
+            risco += semelhantes * 12;
+            if (categoria === "Calçados" || categoria === "Roupas") risco += 10;
+            if (risco > 100) risco = 100;
+
+            const resultado = document.getElementById("resultado");
+            const valorFmt = `R$ ${valor.toFixed(2).replace('.', ',')}`;
+
+            if (risco >= 70) {
+                resultado.innerHTML = `
+                    <div class="bg-rose-50 border-2 border-rose-500 rounded-3xl p-5 text-center space-y-3 shadow-md animate-fade-in">
+                        <div class="w-12 h-12 bg-rose-500 text-white rounded-2xl flex items-center justify-center text-xl mx-auto shadow-sm">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div>
+                            <span class="bg-rose-200 text-rose-800 text-[10px] font-black uppercase px-2 py-0.5 rounded-full">Risco Alto (${risco}%)</span>
+                            <h3 class="text-base font-black text-rose-700 mt-1">COMPRA POR IMPULSO DETECTADA!</h3>
+                            <p class="text-xs text-rose-600">Você realmente precisa disso agora?</p>
+                        </div>
+
+                        <div class="bg-white p-3 rounded-2xl text-left space-y-1 text-xs border border-rose-200">
+                            <div><b>💰 Valor:</b> ${valorFmt}</div>
+                            <div><b>🛒 Categoria:</b> ${categoria}</div>
+                            <div><b>📊 Compras semelhantes:</b> ${semelhantes} no mês</div>
+                            <p class="text-slate-600 italic pt-1">💬 "Você já tem ${semelhantes} itens parecidos. Vai mesmo comprar outro?"</p>
+                        </div>
+
+                        <div class="bg-rose-100 p-3 rounded-2xl border border-rose-200">
+                            <div class="text-[10px] font-bold text-rose-700 uppercase">Tempo de Espera Obrigatório</div>
+                            <div class="text-3xl font-black text-rose-700 my-1" id="timer">30:00</div>
+                            <button onclick="acelerarTimerDemo()" class="text-[10px] text-rose-800 underline font-semibold">
+                                Testar sem esperar 30min (Demo)
+                            </button>
+                        </div>
+
+                        <button onclick="economizarCompra('${escapeHtml(produto)}', ${valor}, '${categoria}')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 px-4 rounded-xl text-xs shadow-md flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-piggy-bank"></i> DESISTIR E ECONOMIZAR ${valorFmt}
+                        </button>
+                    </div>
+                `;
+                iniciarTimer(1800, produto, valor, categoria);
+            } else if (risco >= 40) {
+                resultado.innerHTML = `
+                    <div class="bg-amber-50 border-2 border-amber-400 rounded-3xl p-5 text-center space-y-3 shadow-sm">
+                        <div class="w-12 h-12 bg-amber-400 text-slate-900 rounded-2xl flex items-center justify-center text-xl mx-auto">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <div>
+                            <span class="bg-amber-200 text-amber-900 text-[10px] font-black uppercase px-2 py-0.5 rounded-full">Risco Moderado (${risco}%)</span>
+                            <h3 class="text-base font-black text-amber-900 mt-1">ATENÇÃO: SEGUNDA ANÁLISE</h3>
+                            <p class="text-xs text-amber-800">Esta compra impactará seu orçamento mensal.</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 pt-1">
+                            <button onclick="economizarCompra('${escapeHtml(produto)}', ${valor}, '${categoria}')" class="bg-emerald-600 text-white font-bold py-3 px-2 rounded-xl text-xs">
+                                VOU ECONOMIZAR
+                            </button>
+                            <button onclick="confirmarCompra('${escapeHtml(produto)}', ${valor}, '${categoria}', 'ATENÇÃO')" class="bg-amber-200 text-amber-950 font-bold py-3 px-2 rounded-xl text-xs">
+                                COMPRAR ASSIM MESMO
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                resultado.innerHTML = `
+                    <div class="bg-emerald-50 border-2 border-emerald-400 rounded-3xl p-5 text-center space-y-3 shadow-sm">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-xl mx-auto">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div>
+                            <span class="bg-emerald-200 text-emerald-900 text-[10px] font-black uppercase px-2 py-0.5 rounded-full">Compra Segura (${risco}%)</span>
+                            <h3 class="text-base font-black text-emerald-900 mt-1">COMPRA TRANQUILA</h3>
+                            <p class="text-xs text-emerald-700">Esta compra está dentro dos seus parâmetros normais.</p>
+                        </div>
+
+                        <button onclick="confirmarCompra('${escapeHtml(produto)}', ${valor}, '${categoria}', 'TRANQUILA')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl text-xs shadow-md">
+                            CONFIRMAR COMPRA
+                        </button>
+                    </div>
+                `;
+            }
+
+            resultado.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function iniciarTimer(segundosTotais, produto, valor, categoria) {
+            let segundos = segundosTotais;
+            intervaloTimer = setInterval(() => {
+                segundos--;
+                const min = Math.floor(segundos / 60);
+                const seg = segundos % 60;
+                const texto = `${String(min).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
+
+                const timerEl = document.getElementById("timer");
+                if (timerEl) timerEl.innerText = texto;
+
+                if (segundos <= 0) {
+                    clearInterval(intervaloTimer);
+                    liberarCompra(produto, valor, categoria);
+                }
+            }, 1000);
+        }
+
+        function acelerarTimerDemo() {
+            clearInterval(intervaloTimer);
+            const produto = document.getElementById("produto").value || "Item Demo";
+            const valor = parseFloat(document.getElementById("valor").value) || 100;
+            const categoria = document.getElementById("categoria").value;
+            iniciarTimer(3, produto, valor, categoria);
+            showToast("Temporizador reduzido para 3 segundos.", "info");
+        }
+
+        function liberarCompra(produto, valor, categoria) {
+            const res = document.getElementById("resultado");
+            if (!res) return;
+
+            res.innerHTML += `
+                <div class="bg-emerald-50 border-2 border-emerald-500 rounded-3xl p-4 text-center space-y-2 mt-3 shadow-md">
+                    <h3 class="text-sm font-black text-emerald-800">⏱️ TEMPO FINALIZADO!</h3>
+                    <p class="text-xs text-emerald-700">Você ainda sente a necessidade real de realizar essa compra?</p>
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <button onclick="confirmarCompra('${escapeHtml(produto)}', ${valor}, '${categoria}', 'LIBERADA')" class="bg-slate-200 text-slate-800 font-bold py-2.5 px-2 rounded-xl text-xs">
+                            SIM, AINDA QUERO COMPRAR
+                        </button>
+                        <button onclick="economizarCompra('${escapeHtml(produto)}', ${valor}, '${categoria}')" class="bg-emerald-600 text-white font-bold py-2.5 px-2 rounded-xl text-xs">
+                            NÃO, VOU ECONOMIZAR
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function economizarCompra(produto, valor, categoria) {
+            estado.economiaAtual += valor;
+            estado.comprasEvitadas += 1;
+
+            estado.historico.unshift({
+                produto: produto || 'Compra Evitada',
+                valor: valor,
+                categoria: categoria || 'Geral',
+                status: 'EVITADA',
+                badgeClass: 'bg-rose-100 text-rose-700'
+            });
+
+            atualizarTelas();
+            renderHistorico();
+
+            showModal({
+                title: "🎉 Boa Decisão!",
+                body: `Você economizou R$ ${valor.toFixed(2).replace('.', ',')} com o Antigastos! O saldo foi somado à sua reserva.`,
+                icon: "fa-piggy-bank",
+                iconBg: "bg-emerald-100 text-emerald-600",
+                confirmText: "Ver Economia",
+                onConfirm: () => abrirTela('economiaTela')
+            });
+
+            document.getElementById("resultado").innerHTML = "";
+        }
+
+        function confirmarCompra(produto, valor, categoria, statusTipo) {
+            estado.orcamentoGasto += valor;
+
+            let badge = 'bg-emerald-100 text-emerald-800';
+            if (statusTipo === 'ATENÇÃO') badge = 'bg-amber-100 text-amber-800';
+
+            estado.historico.unshift({
+                produto: produto || 'Compra Realizada',
+                valor: valor,
+                categoria: categoria || 'Geral',
+                status: statusTipo,
+                badgeClass: badge
+            });
+
+            atualizarTelas();
+            renderHistorico();
+
+            showModal({
+                title: "Compra Confirmada",
+                body: `Sua compra de R$ ${valor.toFixed(2).replace('.', ',')} foi computada no seu orçamento.`,
+                icon: "fa-bag-shopping",
+                iconBg: "bg-indigo-100 text-brand-600",
+                confirmText: "OK"
+            });
+
+            document.getElementById("resultado").innerHTML = "";
+        }
+
+        function modoEmergencia() {
+            showModal({
+                title: "🚨 MODO EMERGÊNCIA",
+                body: "Deseja bloquear todas as compras por 24 horas para conter seus impulsos de consumo?",
+                icon: "fa-triangle-exclamation",
+                iconBg: "bg-rose-100 text-rose-600",
+                showCancel: true,
+                confirmText: "Ativar Bloqueio",
+                cancelText: "Cancelar",
+                onConfirm: () => {
+                    estado.modoEmergencia = true;
+                    document.getElementById("emergency-banner").classList.remove("hidden");
+                    showToast("🔒 MODO EMERGÊNCIA ATIVADO POR 24H!", "error");
+                }
+            });
+        }
+
+        function desativarEmergencia() {
+            estado.modoEmergencia = false;
+            document.getElementById("emergency-banner").classList.add("hidden");
+            showToast("Modo emergência desativado.", "info");
+        }
+
+        function assinatura() {
+            showModal({
+                title: "🛡️ Antigastos Premium",
+                body: "R$ 9,90/mês.\n\nEsta é uma demonstração do plano premium. Nenhuma cobrança real foi executada.",
+                icon: "fa-crown",
+                iconBg: "bg-amber-100 text-amber-600",
+                confirmText: "Entendido"
+            });
+        }
+
+        function salvarLimites() {
+            const limite = parseFloat(document.getElementById("limiteMensal").value) || 2000;
+            estado.orcamentoLimite = limite;
+            atualizarTelas();
+
+            showModal({
+                title: "✅ Limite Salvo!",
+                body: `Seu novo limite mensal configurado é R$ ${limite.toFixed(2).replace('.', ',')}.`,
+                icon: "fa-floppy-disk",
+                iconBg: "bg-brand-50 text-brand-600",
+                confirmText: "OK"
+            });
+        }
+
+        function limparHistorico() {
+            showModal({
+                title: "Limpar Histórico?",
+                body: "Deseja remover o registro de análises do histórico?",
+                icon: "fa-trash",
+                iconBg: "bg-slate-100 text-slate-600",
+                showCancel: true,
+                confirmText: "Limpar",
+                cancelText: "Cancelar",
+                onConfirm: () => {
+                    estado.historico = [];
+                    renderHistorico();
+                    showToast("Histórico limpo.", "info");
+                }
+            });
+        }
+
+        let modalConfirmCallback = null;
+
+        function showModal({ title, body, icon, iconBg, showCancel = false, confirmText = 'OK', cancelText = 'Cancelar', onConfirm = null }) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-body').innerText = body;
+
+            const iconEl = document.getElementById('modal-icon');
+            iconEl.className = `fa-solid ${icon || 'fa-circle-info'}`;
+
+            const wrapper = document.getElementById('modal-icon-wrapper');
+            wrapper.className = `w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mx-auto ${iconBg || 'bg-indigo-50 text-brand-500'}`;
+
+            modalConfirmCallback = onConfirm;
+
+            const actionsContainer = document.getElementById('modal-actions');
+            actionsContainer.innerHTML = '';
+
+            if (showCancel) {
+                const cancelBtn = document.createElement('button');
+                cancelBtn.className = 'flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs transition-colors';
+                cancelBtn.innerText = cancelText;
+                cancelBtn.onclick = closeModal;
+                actionsContainer.appendChild(cancelBtn);
+            }
+
+            const confirmBtn = document.createElement('button');
+            confirmBtn.className = 'flex-1 bg-brand-500 hover:bg-brand-600 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-colors shadow-md';
+            confirmBtn.innerText = confirmText;
+            confirmBtn.onclick = () => {
+                closeModal();
+                if (modalConfirmCallback) modalConfirmCallback();
+            };
+            actionsContainer.appendChild(confirmBtn);
+
+            const overlay = document.getElementById('custom-modal-overlay');
+            const card = document.getElementById('custom-modal-card');
+
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const overlay = document.getElementById('custom-modal-overlay');
+            const card = document.getElementById('custom-modal-card');
+
+            overlay.classList.add('opacity-0');
+            card.classList.remove('scale-100');
+            card.classList.add('scale-95');
+
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 200);
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            let bg = 'bg-slate-900 text-white';
+            let icon = 'fa-circle-info';
+
+            if (type === 'success') { bg = 'bg-emerald-600 text-white'; icon = 'fa-circle-check'; }
+            if (type === 'warning') { bg = 'bg-amber-500 text-slate-950'; icon = 'fa-triangle-exclamation'; }
+            if (type === 'error') { bg = 'bg-rose-600 text-white'; icon = 'fa-shield-virus'; }
+
+            toast.className = `${bg} px-4 py-2.5 rounded-2xl shadow-xl text-xs font-bold flex items-center gap-2 transform transition-all duration-300 opacity-0 translate-y-[-10px] pointer-events-auto`;
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${escapeHtml(message)}</span>`;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-0', 'translate-y-[-10px]');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-10px]');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+    </script>
+</body>
+</html>
